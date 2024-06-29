@@ -42,7 +42,7 @@ if accessToken == "":
 api = Mastodon(access_token=accessToken, api_base_url=baseUrl)
 
 ## Getting user to reblog's informations
-## If the access token or the user to reblog is wrong, exit with error
+## If the access token or the user to reblog is wrong or not found, exit with error
 try:
     userToReblogInfos = api.account_search(userToReblog, following=True)
 except Exception as errorMessage:
