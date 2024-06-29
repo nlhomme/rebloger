@@ -3,7 +3,7 @@ import getpass
 from mastodon import Mastodon
 
 # TODO:
-# Turn print statements to logs
+# Turn print statements into logs
 
 # VARS
 ## Init variables
@@ -12,11 +12,12 @@ api = ""
 baseUrl = ""
 accessToken = ""
 userToReblog = ""
+lastReblogedPost = ""
 
 # Get cmd parameters
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Requirements to reblog recent posts from someone"
+        description="Requirements to use Rebloger"
     )
     parser.add_argument("--baseUrl", required=True, type=str, help="Instance URL (example: 'mastodon.social')")
     parser.add_argument("--accessToken", required=False, type=str, help="App acces token, requires scopes 'read:accounts', 'read:statuses' and 'write:statuses'")
@@ -27,12 +28,13 @@ if __name__ == "__main__":
     accessToken = args.accessToken
     userToReblog = args.userToReblog
 
+
 # FUNCTIONS
 
 
 # START
 ## Invite user to provide his app acess token if not done via cmd parameters:
-if accessToken == "":
+if not accessToken:
     print("Please provide your acess token:")
     accessToken = getpass.getpass(prompt="Access token:")
 
@@ -48,12 +50,15 @@ try:
 except Exception as errorMessage:
     print('ERROR', errorMessage)
 
-#Printing id
-print("ID for " + userToReblog + " is " + str(userToReblogInfos[0].id))
+## Printing id
+#print("ID for " + userToReblog + " is " + str(userToReblogInfos[0].id))
 
 
+# If last rebloged post is unknown
+# Then get it from user's timeline
+#if lastReblogedPost == "":
+#    api.account_statuses()
 
-#Lecture id dernier post
 
 #Vérifier la veleur de la variable qui contient le dernier id repouété
 #Si la var est vide, consulter les pouets Mastodon et trouver le dernier repouety
