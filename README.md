@@ -1,6 +1,6 @@
 # Rebloger (Work in progress)
 
-Rebloger is a Python script that automaticcaly reblogs (or retoots) a post from a user of your choice
+Rebloger is a Python script that automatically reblogs (or retoots) a post from a fediverse user of your choice
 
 ## Requirements
 
