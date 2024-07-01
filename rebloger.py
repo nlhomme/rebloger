@@ -8,16 +8,18 @@ import operator
 
 # VARS
 ## Init variables
-userToReblogInfos = ""
-userWhoPostsInfos = ""
+userToReblogInfos: dict = {}
+userWhoPostsInfos: dict = {}
 api = ""
-baseUrl = ""
-accessToken = ""
-userToReblog = ""
-lastReblogedPost = ""
-statusList: dict = []
-filtered_statuses: dict = []
-userWhoPosts = ""
+baseUrl: str = ""
+accessToken: str = ""
+userWhoPosts: str = ""
+userToReblog: str = ""
+original_status: dict = {}
+lastReblogedPost: dict = {}
+statusList: list = []
+filtered_statuses: list = []
+
 
 # Get cmd parameters
 if __name__ == "__main__":
