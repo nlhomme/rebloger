@@ -2,7 +2,6 @@ import argparse
 import getpass
 from mastodon import Mastodon
 import operator
-from sonic import SearchClient
 
 # TODO:
 # Turn print statements into logs
