@@ -53,6 +53,7 @@ api = Mastodon(access_token=accessToken, api_base_url=baseUrl)
 ## Getting infos about the user to reblog's and the user who posts
 ## TODO: If the access token or the user to reblog is not found, exit with error
 try:
+    ## TODO: Turn to function that return only ID
     userToReblogInfos = api.account_search(userToReblog, following=True)
     userWhoPostsInfos = api.account_search(userWhoPosts)
 #    print(userWhoPostsInfos)
@@ -60,12 +61,16 @@ except Exception as errorMessage:
     print('ERROR', errorMessage)
 
 ## Printing IDs
+## TODO: turn to function
+## TODO: variabiliser str(userToReblogInfos[0].id)
+## TODO: variabiliser str(userWhoPostsInfos[0].id))
 print("ID for " + userToReblog + " is " + str(userToReblogInfos[0].id))
 print("ID for " + userWhoPosts + " is " + str(userWhoPostsInfos[0].id))
 
 # If last rebloged post is unknown
 # Then get it from user's statuses
 # lastReblogedPost can be empty with no incidence
+## TODO: Turn to function
 statusList = api.account_statuses(userWhoPostsInfos[0].id, since_id=lastReblogedPost)
 #print(statusList)
 
@@ -77,6 +82,9 @@ print(lastReblogedPost)
 
 print("The last status from " + userToReblog + " rebloged by " + userWhoPosts + " has ID " + str(lastReblogedPost))
 
+# Get new status to reblog since the last one
+# lastReblogedPost can be empty with no incidence
+## TODO: Turn to function
 newStatusList = api.account_statuses(userToReblogInfos[0].id, since_id=lastReblogedPost)
 print(newStatusList)
 
