@@ -17,5 +17,5 @@ jobs:
       - name: Automatic requirements.txt for Python Project
         uses: ryan-rozario/pipreqs-action@master
       with:
-      PROJECT_PATH: .
-      REQUIREMENT_PATH: ./requirements.txt
+        PROJECT_PATH: .
+        REQUIREMENT_PATH: ./requirements.txt
