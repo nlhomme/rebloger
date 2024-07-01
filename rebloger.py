@@ -1,6 +1,7 @@
 import argparse
 import getpass
 from mastodon import Mastodon
+import operator
 
 # TODO:
 # Turn print statements into logs
@@ -62,29 +63,26 @@ print("ID for " + userWhoPosts + " is " + str(userWhoPostsInfos[0].id))
 
 # If last rebloged post is unknown
 # Then get it from user's statuses
-statusList = api.account_statuses(111691954753000873, since_id=lastReblogedPost)
+# lastReblogedPost can be empty with no incidence
+statusList = api.account_statuses(userWhoPostsInfos[0].id, since_id=lastReblogedPost)
 #print(statusList)
 
 for status in statusList:
     original_status = status['reblog']
     if original_status and original_status['account']['id'] == userToReblogInfos[0].id:
-        filtered_statuses.append(status)
-    lastReblogedPost = status['id']
+        lastReblogedPost = original_status['id']
+print(lastReblogedPost)
 
 print("The last status from " + userToReblog + " rebloged by " + userWhoPosts + " has ID " + str(lastReblogedPost))
-print(filtered_statuses)
 
+newStatusList = api.account_statuses(userToReblogInfos[0].id, since_id=lastReblogedPost)
+print(newStatusList)
 
-#Vérifier la veleur de la variable qui contient le dernier id repouété
-#Si la var est vide, consulter les pouets Mastodon et trouver le dernier repouety
 
 #Debut cycle
 
-#    Lecture des posts pixelfed ultérieurs à l'horodatage
+#    Enregistyrements des id des posts pixelfed ultérieurs à lastReblogedPost
 
-#    Reblog des posts pixelfed ultérieurs à l'horodatage
+#    Reblog des posts pixelfed ultérieurs à lastReblogedPost
 
 #Mise en attente du prochain cycle
-
-
-#api.status_post("Test de l'API Mastodon / Testing Mastodon's API")
