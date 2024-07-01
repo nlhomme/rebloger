@@ -1,0 +1,21 @@
+---
+
+name: Actions when opening pull request
+
+on:
+  push:
+    branches:
+      - dev
+#  pull_request:
+#    types: [opened, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Automatic requirements.txt for Python Project
+        uses: ryan-rozario/pipreqs-action@master
+      with:
+      PROJECT_PATH: .
+      REQUIREMENT_PATH: ./requirements.txt
