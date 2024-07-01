@@ -5,7 +5,7 @@ name: Actions when opening pull request
 on:
   push:
     branches:
-      - 'dev'
+      - '*'
 #  pull_request:
 #    types: [opened, reopened]
 
