@@ -63,3 +63,7 @@ options:
 ```
 
 ### Using Docker
+
+## Thanks
+
+Thank you [@alexandra-zaharia](https://github.com/alexandra-zaharia) for [the logger](https://alexandra-zaharia.github.io/posts/make-your-own-custom-color-formatter-with-python-logging/)
