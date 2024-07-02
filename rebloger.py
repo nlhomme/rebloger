@@ -4,9 +4,6 @@ from logger import get_logger
 from mastodon import Mastodon
 import operator
 
-# TODO:
-# Turn print statements into logs
-
 # VARS
 ## Init variables
 userToReblogID: int = ""
