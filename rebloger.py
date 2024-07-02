@@ -8,20 +8,20 @@ import operator
 
 # VARS
 ## Init variables
-userToReblogInfos: dict = {}
-userWhoPostsInfos: dict = {}
+userToReblogID: int = ""
+userWhoPostsID: int = ""
 api = ""
 baseUrl: str = ""
 accessToken: str = ""
 userWhoPosts: str = ""
 userToReblog: str = ""
 original_status: dict = {}
-lastReblogedPost: dict = {}
-statusList: list = []
+lastReblogedPost: int = ""
+userWhoPostsStatus: list = []
 filtered_statuses: list = []
+newStatusToReblog: list = []
 
-
-# Get cmd parameters
+# # Get cmd parameters
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Requirements to use Rebloger"
@@ -39,6 +39,16 @@ if __name__ == "__main__":
 
 
 # FUNCTIONS
+def getID(username, followed: bool = False):
+## TODO: If the access token or the user to reblog is not found, exit with error
+    try:
+        usernameInfos = api.account_search(username, following=followed)
+        return usernameInfos[0].id
+    except Exception as errorMessage:
+        print('ERROR', errorMessage)
+
+def getStatuses (userID, sincePostID):
+    return api.account_statuses(userID, since_id = sincePostID)
 
 
 # START
@@ -51,47 +61,36 @@ if not accessToken:
 api = Mastodon(access_token=accessToken, api_base_url=baseUrl)
 
 ## Getting infos about the user to reblog's and the user who posts
-## TODO: If the access token or the user to reblog is not found, exit with error
-try:
-    ## TODO: Turn to function that return only ID
-    userToReblogInfos = api.account_search(userToReblog, following=True)
-    userWhoPostsInfos = api.account_search(userWhoPosts)
-#    print(userWhoPostsInfos)
-except Exception as errorMessage:
-    print('ERROR', errorMessage)
+## TODO: Turn to function that return only ID
+userToReblogID = getID(userToReblog, True)
+userWhoPostsID = getID(userWhoPosts)
 
 ## Printing IDs
-## TODO: turn to function
-## TODO: variabiliser str(userToReblogInfos[0].id)
-## TODO: variabiliser str(userWhoPostsInfos[0].id))
-print("ID for " + userToReblog + " is " + str(userToReblogInfos[0].id))
-print("ID for " + userWhoPosts + " is " + str(userWhoPostsInfos[0].id))
+## TODO: turn to function to print AND log
+print("ID for " + userToReblog + " is " + str(userToReblogID))
+print("ID for " + userWhoPosts + " is " + str(userWhoPostsID))
 
 # If last rebloged post is unknown
 # Then get it from user's statuses
 # lastReblogedPost can be empty with no incidence
-## TODO: Turn to function
-statusList = api.account_statuses(userWhoPostsInfos[0].id, since_id=lastReblogedPost)
-#print(statusList)
+userWhoPostsStatuses = getStatuses(userWhoPostsID, lastReblogedPost)
+#print(userWhoPostsStatus)
 
-for status in statusList:
+for status in userWhoPostsStatuses:
     original_status = status['reblog']
-    if original_status and original_status['account']['id'] == userToReblogInfos[0].id:
+    if original_status and original_status['account']['id'] == userToReblogID:
         lastReblogedPost = original_status['id']
 print(lastReblogedPost)
 
 print("The last status from " + userToReblog + " rebloged by " + userWhoPosts + " has ID " + str(lastReblogedPost))
 
-# Get new status to reblog since the last one
-# lastReblogedPost can be empty with no incidence
-## TODO: Turn to function
-newStatusList = api.account_statuses(userToReblogInfos[0].id, since_id=lastReblogedPost)
-print(newStatusList)
-
 
 #Debut cycle
 
-#    Enregistyrements des id des posts pixelfed ultérieurs à lastReblogedPost
+# Get new status to reblog since the last one
+# lastReblogedPost can be empty with no incidence
+newStatusToReblog = getStatuses(userToReblogID, lastReblogedPost)
+print(newStatusToReblog)
 
 #    Reblog des posts pixelfed ultérieurs à lastReblogedPost
 
