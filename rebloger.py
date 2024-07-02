@@ -5,7 +5,7 @@ from mastodon import Mastodon
 import operator
 
 # VARS
-## Init variables
+## Initiating variables
 userToReblogID: int = ""
 userWhoPostsID: int = ""
 api = ""
@@ -20,7 +20,7 @@ filtered_statuses: list = []
 newStatusToReblog: list = []
 logLevel: str = "INFO"
 
-# # Get cmd parameters
+# # Getting cmd parameters
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Requirements to use Rebloger"
@@ -41,6 +41,7 @@ if __name__ == "__main__":
 
 
 # FUNCTIONS
+## TODO: doc functions
 def getID(username, followed: bool = False):
 ## TODO: If the access token or the user to reblog is not found, exit with error
     try:
@@ -54,7 +55,7 @@ def getStatuses (userID, sincePostID):
 
 
 # START
-## Invite user to provide his app acess token if not done via cmd parameters:
+## Inviting user to provide his app acess token if not done via cmd parameters:
 if not accessToken:
     print("Please provide your acess token:")
     accessToken = getpass.getpass(prompt="Access token:")
@@ -73,8 +74,7 @@ userWhoPostsID = getID(userWhoPosts)
 logger.info("ID for " + userToReblog + " is " + str(userToReblogID))
 logger.info("ID for " + userWhoPosts + " is " + str(userWhoPostsID))
 
-# If last rebloged post is unknown
-# Then get it from user's statuses
+# If last rebloged post is unknown then get it from user's statuses
 # lastReblogedPost can be empty with no incidence
 userWhoPostsStatuses = getStatuses(userWhoPostsID, lastReblogedPost)
 #print(userWhoPostsStatus)
@@ -90,7 +90,7 @@ logger.info("The last status from " + userToReblog + " rebloged by " + userWhoPo
 
 #Debut cycle
 
-# Get new status to reblog since the last one
+# Geting new status to reblog since the last one
 # lastReblogedPost can be empty with no incidence
 newStatusToReblog = getStatuses(userToReblogID, lastReblogedPost)
 logger.debug(newStatusToReblog)
