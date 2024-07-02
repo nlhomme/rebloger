@@ -34,7 +34,7 @@ pip install -r requirements.txt
 
 Run
 
-If one or several parameters is/are missing, an errer will appear:
+If one or several parameters is/are missing, an error will appear:
 
 ```bash
 python /Users/nicolas/git/python/rebloger/rebloger.py                                                                                 
@@ -46,17 +46,20 @@ Help is available via the `-h` or `--help`:
 
 ```bash
 python /Users/nicolas/git/python/rebloger/rebloger.py --help
-usage: rebloger.py [-h] --baseUrl BASEURL [--accessToken ACCESSTOKEN] --userToReblog USERTOREBLOG
+usage: rebloger.py [-h] --baseUrl BASEURL [--accessToken ACCESSTOKEN] --userToReblog USERTOREBLOG --userWhoPosts USERWHOPOSTS [--logLevel LOGLEVEL]
 
-Requirements to reblog recent posts from someone
+Requirements to use Rebloger
 
 options:
   -h, --help            show this help message and exit
   --baseUrl BASEURL     Instance URL (example: 'mastodon.social')
   --accessToken ACCESSTOKEN
-                        App acces token, requires scopes 'read:accounts', 'read:statuses' and 'write:statuses'
+                        App acces token, don't use it to type it securely later
   --userToReblog USERTOREBLOG
                         Type username to reblog its posts with format 'username@instance' (example: 'nlhomme@pixelfed.social')
+  --userWhoPosts USERWHOPOSTS
+                        Type username who will post with format 'username@instance' (example: 'nlhomme@mastodon.social')
+  --logLevel LOGLEVEL   Log level between DEBUG, INFO, WARNING, ERROR AND CRITICAL (default set to INFO)
 ```
 
 ### Using Docker

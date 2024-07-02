@@ -1,5 +1,6 @@
 import argparse
 import getpass
+from logger import get_logger
 from mastodon import Mastodon
 import operator
 
@@ -20,6 +21,7 @@ lastReblogedPost: int = ""
 userWhoPostsStatus: list = []
 filtered_statuses: list = []
 newStatusToReblog: list = []
+logLevel: str = "INFO"
 
 # # Get cmd parameters
 if __name__ == "__main__":
@@ -27,15 +29,18 @@ if __name__ == "__main__":
         description="Requirements to use Rebloger"
     )
     parser.add_argument("--baseUrl", required=True, type=str, help="Instance URL (example: 'mastodon.social')")
-    parser.add_argument("--accessToken", required=False, type=str, help="App acces token, requires scopes 'read:accounts', 'read:statuses' and 'write:statuses'")
+    parser.add_argument("--accessToken", required=False, type=str, help="App acces token, don't use it to type it securely later")
     parser.add_argument("--userToReblog", required=True, type=str, help="Type username to reblog its posts with format 'username@instance' (example: 'nlhomme@pixelfed.social')")
     parser.add_argument("--userWhoPosts", required=True, type=str, help="Type username who will post with format 'username@instance' (example: 'nlhomme@mastodon.social')")
+    parser.add_argument("--logLevel", required=False, type=str, help="Log level between DEBUG, INFO, WARNING, ERROR AND CRITICAL (default set to INFO)")
+
     args = parser.parse_args()
 
     baseUrl = args.baseUrl
     accessToken = args.accessToken
     userToReblog = args.userToReblog
     userWhoPosts = args.userWhoPosts
+    logLevel = args.logLevel
 
 
 # FUNCTIONS
@@ -60,15 +65,16 @@ if not accessToken:
 ## Preparing API acess
 api = Mastodon(access_token=accessToken, api_base_url=baseUrl)
 
+## Preparing log file
+logger = get_logger("logs", "rebloger", logLevel)
+
 ## Getting infos about the user to reblog's and the user who posts
-## TODO: Turn to function that return only ID
 userToReblogID = getID(userToReblog, True)
 userWhoPostsID = getID(userWhoPosts)
 
 ## Printing IDs
-## TODO: turn to function to print AND log
-print("ID for " + userToReblog + " is " + str(userToReblogID))
-print("ID for " + userWhoPosts + " is " + str(userWhoPostsID))
+logger.info("ID for " + userToReblog + " is " + str(userToReblogID))
+logger.info("ID for " + userWhoPosts + " is " + str(userWhoPostsID))
 
 # If last rebloged post is unknown
 # Then get it from user's statuses
@@ -80,9 +86,9 @@ for status in userWhoPostsStatuses:
     original_status = status['reblog']
     if original_status and original_status['account']['id'] == userToReblogID:
         lastReblogedPost = original_status['id']
-print(lastReblogedPost)
+logger.debug(lastReblogedPost)
 
-print("The last status from " + userToReblog + " rebloged by " + userWhoPosts + " has ID " + str(lastReblogedPost))
+logger.info("The last status from " + userToReblog + " rebloged by " + userWhoPosts + " has ID " + str(lastReblogedPost))
 
 
 #Debut cycle
@@ -90,7 +96,7 @@ print("The last status from " + userToReblog + " rebloged by " + userWhoPosts + 
 # Get new status to reblog since the last one
 # lastReblogedPost can be empty with no incidence
 newStatusToReblog = getStatuses(userToReblogID, lastReblogedPost)
-print(newStatusToReblog)
+logger.debug(newStatusToReblog)
 
 #    Reblog des posts pixelfed ultérieurs à lastReblogedPost
 
