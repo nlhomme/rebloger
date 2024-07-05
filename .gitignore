@@ -25,3 +25,10 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+## Log files
+*.log
+
+## Python cache
+__pycache__
+*.pyc
