@@ -73,7 +73,11 @@ def main():
     logger.info(f"The last status from {userToReblog} rebloged by {userWhoPosts} has ID {lastReblogedPost}")
 
     newStatusToReblog = getStatuses(api, userToReblogID, lastReblogedPost)
-    logger.debug(newStatusToReblog)
+
+    if not newStatusToReblog:
+        logger.info(f"No new status to reblog, ending")
+    else:
+        logger.debug(newStatusToReblog)
 
 if __name__ == "__main__":
     main()
